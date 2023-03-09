@@ -13,8 +13,8 @@ get_db = dbConn.get_db
 def login(request: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(dbConn.get_db)):
     admin= admins.authenticate(db, request)
     
-    if not admins.is_active(admin):
-            raise HTTPException(status_code=400, detail="Inactive admin")
+    # if not admins.is_active(admin):
+    #         raise HTTPException(status_code=400, detail="Inactive admin")
 
     access_token = token.create_access_token(data={"email": admin.email, "contact": admin.contact})
     return {

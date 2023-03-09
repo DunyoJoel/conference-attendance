@@ -10,7 +10,7 @@ class CreateParticipant(BaseModel):
     phone_number: str
     email: str
     organization: str
-    registering_from: str
+    registry_from: str
 
     class Config():
         orm_mode = True
@@ -23,7 +23,19 @@ class ShowParticipant(BaseModel):
     phone_number: str
     email: str
     organization: str
-    registering_from: str
+    registry_from: str
+
+    class Config():
+        orm_mode = True
+
+class ShowParticipantPhone(BaseModel):
+    # id: int
+    name: str
+    gender: str
+    phone_number: str 
+    email: str
+    organization: str
+    registry_from: str
 
     class Config():
         orm_mode = True
@@ -36,7 +48,7 @@ class UpdateParticipant(BaseModel):
     phone_number: str
     email: str
     organization: str
-    registering_from: str
+    registry_from: str
 
     class Config():
         orm_mode = True
@@ -96,16 +108,20 @@ class UpdateEvent(BaseModel):
 
     class Config():
         orm_mode = True
+
+
 class UpdateAttendance(BaseModel):
     id: int
-    status : str
-
+    status: str
 
     class Config():
         orm_mode = True
 
+
 class CreateAdmin(BaseModel):
     email: str
+    admin_name: str
+    contact: str
     password: str
 
     class Config():
@@ -134,6 +150,7 @@ class TokenPayload(BaseModel):
     contact: str = None
     exp: int = None
 
+
 class EventWithAdmin(BaseModel):
     Department: ShowEvent = None
     Admin: ShowAdmin = None
@@ -141,6 +158,7 @@ class EventWithAdmin(BaseModel):
     class Config():
         orm_mode = True
 
+
 class ParticipantWithAdmin(BaseModel):
-    User:ShowParticipant
-    Admin:ShowAdmin
+    User: ShowParticipant = None
+    Admin: ShowAdmin = None

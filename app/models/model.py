@@ -15,8 +15,9 @@ class Participant(Base):
     email = Column(String, unique=True, index=True)
     organization = Column(String)
     registry_from = Column(String)
-    event = relationship("Event", back_populates="participants")
-    attendance = relationship("Attendance", back_populates="users")
+    #attendance_id = Column(Integer, ForeignKey('attendances.id'))
+
+    event = relationship('Event', back_populates='participants')
 
 
 class Event(Base):
@@ -31,7 +32,6 @@ class Event(Base):
     admin_id = Column(Integer, ForeignKey("admins.id"))
     participantId = Column(Integer, ForeignKey("participants.id"))
     participants = relationship("Participant", back_populates="event")
-    
 
 
 class Attendance(Base):
@@ -40,7 +40,7 @@ class Attendance(Base):
     status = Column(String)
     admin_id = Column(Integer, ForeignKey("admins.id"))
     participantId = Column(Integer, ForeignKey("participants.id"))
-    participants = relationship("Participant", back_populates="event")
+   # participants = relationship("Participant", back_populates="event")
 
 
 class Admin(Base):

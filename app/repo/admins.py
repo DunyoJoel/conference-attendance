@@ -112,8 +112,8 @@ def get_by_name(contact: str, db: Session):
 
 
 
-def is_active(user: schemas.ShowAdmin) -> bool:
-        return user.isActive
+# def is_active(user: schemas.ShowAdmin) -> bool:
+#         return user.isActive
     
 def get_by_email(db: Session, request):
     admin = db.query(model.Admin).filter(model.Admin.email ==request).first()

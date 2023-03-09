@@ -18,6 +18,6 @@ async def get_current_user(data: str = Depends(oauth2_scheme), db: Session = Dep
 
 def get_current_active_user(
     current_admin = Security(get_current_user)):
-    if not admins.is_active(current_admin):
-        raise HTTPException(status_code=400, detail="Inactive admin")
-    return current_admin
+    # if not admins.is_active(current_admin):
+    #     raise HTTPException(status_code=400, detail="Inactive admin")
+     return current_admin

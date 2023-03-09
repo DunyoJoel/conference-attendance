@@ -3,7 +3,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from app.utils import schemas, dbConn
 from app.security import token
-from app.repo import participants, events, attendances,admins
+from app.repo import participants, events, attendances, admins
 
 from app.utils.initialUser import User
 from app.security import oauth2
@@ -56,16 +56,15 @@ async def show_event_all(db: Session = Depends(get_db),  current_user: schemas.S
     return events.get_all(db)
 
 
-
 # route for user
 @router.post('/participant/add', response_model=schemas.ShowParticipant, tags=['Admin', ])
 async def create_participant(request: schemas.CreateParticipant,
-                             db: Session = Depends(get_db),
-                             current_user: schemas.ShowAdmin = Security(
-                                 oauth2.get_current_active_user
+                             db: Session = Depends(get_db)
+                             #  current_user: schemas.ShowAdmin = Security(
+                             #      oauth2.get_current_active_user
 
-                             )):
-    return participants.create(request, db, current_user)
+                             ):
+    return participants.create(request, db)
 
 
 @router.get('/participant/{id}',  response_model=schemas.ShowParticipant, tags=['Admin'])
@@ -74,6 +73,13 @@ async def show_participant(id: int, db: Session = Depends(get_db),  current_user
 
 )):
     return participants.show(id, db)
+# search for participants
+
+
+@router.get('/search_participant/{phone_number_email}',  response_model=schemas.ShowParticipantPhone, tags=['Admin'])
+async def search_participant(phone_number_email: str, db: Session = Depends(get_db)
+                             ):
+    return participants.get_by_phone_number(phone_number_email, db)
 
 
 @router.get('/participant/', response_model=List[schemas.ParticipantWithAdmin], tags=['Admin'])
