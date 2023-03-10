@@ -1,0 +1,21 @@
+version: '3.9'
+services:
+  radioeye_app:
+    container_name: conference_system
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: ./app/
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - ADMIN_NAME=${ADMIN_NAME}
+      - ADMIN_EMAIL=${ADMIN_EMAIL}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - ADMIN_CONTACT=${ADMIN_CONTACT}
+      
+    volumes:
+      - ./app/
+    expose:
+      - 5000
+    ports:
+      - 5000:5000
