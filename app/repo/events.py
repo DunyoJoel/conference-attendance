@@ -5,6 +5,7 @@ from app.models import model
 from app.utils import schemas
 from datetime import datetime
 from sqlalchemy import desc
+import hashlib
 
 def create(request: schemas.CreateEvent, db: Session, current_user):
     event = db.query(model.Event).filter(model.Event.event_name  == request.event_name ).first()
@@ -26,6 +27,8 @@ def create(request: schemas.CreateEvent, db: Session, current_user):
         db.commit()
         db.refresh(new_event)
         return new_event
+    
+
 
 
 

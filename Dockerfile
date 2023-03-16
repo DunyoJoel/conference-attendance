@@ -1,7 +1,7 @@
-FROM python:3.10.4
+FROM python:3.10.4-slim-buster
 
 # 
-WORKDIR /code
+WORKDIR /app
 
 
 # Set up Python behaviour
@@ -14,7 +14,7 @@ RUN python -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 # Set the server port
-EXPOSE 5000
+EXPOSE 8000
 
 # Install system dependencies
 RUN apt-get update && \
@@ -23,13 +23,13 @@ RUN apt-get update && \
     apt-get clean
 
 # Install Python dependencies
-RUN pip install --upgrade pip
+RUN pip3 install --upgrade pip
 COPY ./requirements.txt ./
-RUN pip install -r requirements.txt
+RUN pip3 install -r requirements.txt
 
 
 # Copy all files
-COPY . .
+COPY . /app
 
 # Start up the backend server
-CMD [ "uvicorn", "app.main:app", "--workers", "4", "--host", "0.0.0.0", "--port", "5000" ]
+# CMD [ "uvicorn", "app.main:app", "--workers", "4", "--host", "0.0.0.0", "--port", "5000" ]

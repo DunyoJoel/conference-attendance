@@ -1,21 +1,39 @@
-version: '3.9'
+version: "3.9"
+
 services:
-  radioeye_app:
-    container_name: conference_system
+
+  db:
+    container_name: postgresql_db
+    image: postgres
     restart: always
-    build:
-      dockerfile: Dockerfile
-      context: ./app/
-    environment:
-      - DATABASE_URL=${DATABASE_URL}
-      - ADMIN_NAME=${ADMIN_NAME}
-      - ADMIN_EMAIL=${ADMIN_EMAIL}
-      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
-      - ADMIN_CONTACT=${ADMIN_CONTACT}
-      
-    volumes:
-      - ./app/
-    expose:
-      - 5000
     ports:
-      - 5000:5000
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PASSWORD}
+    ports:
+      - 5050:80
+    depends_on:
+      - db
+  app:
+    container_name: app
+    build: .
+    entrypoint: ./server-entrypoint.sh
+    volumes:
+      - .:/app
+    ports:
+      - 8000:8000
+    restart: always
+    depends_on:
+      - db
+      - pgadmin
+      

@@ -28,11 +28,12 @@ class ShowParticipant(BaseModel):
     class Config():
         orm_mode = True
 
+
 class ShowParticipantPhone(BaseModel):
     # id: int
     name: str
     gender: str
-    phone_number: str 
+    phone_number: str
     email: str
     organization: str
     registry_from: str
@@ -81,6 +82,19 @@ class CreateEvent(BaseModel):
 
     class Config():
         orm_mode = True
+
+
+# class CreateEventUrl(BaseModel):
+#     id: int
+#     event_name: str = None
+#     venue: str = None
+#     start_date: datetime = None
+#     end_date: datetime = None
+#     number_of_participants: int = None
+#     description: str = None
+
+#     class Config():
+#         orm_mode = True
 
 
 class ShowEvent(BaseModel):

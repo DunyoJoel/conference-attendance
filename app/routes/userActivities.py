@@ -13,7 +13,7 @@ router = APIRouter()
 get_db = dbConn.get_db
 
 
-# route for department
+# route for event
 @router.post('/event/add', response_model=schemas.ShowEvent, tags=['Admin', ])
 async def create_event(request: schemas.CreateEvent,
                        db: Session = Depends(get_db),
@@ -23,6 +23,15 @@ async def create_event(request: schemas.CreateEvent,
                        )):
     return events.create(request, db, current_user)
 
+# create event url
+@router.post('/generate_event_url/add', response_model=schemas.ShowEvent, tags=['Admin', ])
+async def create_event_url(request: schemas.CreateEventUrl,
+                       db: Session = Depends(get_db),
+                       current_user: schemas.ShowAdmin = Security(
+                           oauth2.get_current_active_user
+
+                       )):
+    return events.create(request, db, current_user)
 
 @router.delete('/event/{id}',  response_model=schemas.ShowEvent, tags=['Admin'])
 async def destroy(id: int, db: Session = Depends(get_db),  current_user: schemas.ShowAdmin = Security(
