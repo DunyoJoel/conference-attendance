@@ -24,14 +24,15 @@ async def create_event(request: schemas.CreateEvent,
     return events.create(request, db, current_user)
 
 # create event url
-@router.post('/generate_event_url/add', response_model=schemas.ShowEvent, tags=['Admin', ])
-async def create_event_url(request: schemas.CreateEventUrl,
-                       db: Session = Depends(get_db),
-                       current_user: schemas.ShowAdmin = Security(
-                           oauth2.get_current_active_user
+# @router.post('/generate_event_url/add', response_model=schemas.ShowEvent, tags=['Admin', ])
+# async def create_event_url(request: schemas.CreateEventUrl,
+#                        db: Session = Depends(get_db),
+#                        current_user: schemas.ShowAdmin = Security(
+#                            oauth2.get_current_active_user
 
-                       )):
-    return events.create(request, db, current_user)
+#                        )):
+#     return events.create(request, db, current_user)
+
 
 @router.delete('/event/{id}',  response_model=schemas.ShowEvent, tags=['Admin'])
 async def destroy(id: int, db: Session = Depends(get_db),  current_user: schemas.ShowAdmin = Security(
@@ -57,12 +58,26 @@ async def show_event(id: int, db: Session = Depends(get_db),  current_user: sche
     return events.show(id, db)
 
 
-@router.get('/event/', response_model=List[schemas.EventWithAdmin], tags=['Admin'])
+@router.get('/event/', response_model=List[schemas.ShowEventAll], tags=['Admin'])
 async def show_event_all(db: Session = Depends(get_db),  current_user: schemas.ShowAdmin = Security(
         oauth2.get_current_active_user,
 
 )):
     return events.get_all(db)
+
+
+@router.get('/event_url/{event_name}',  response_model=schemas.CreateEventUrl, tags=['Admin'])
+async def generate_url(event_name: str, db: Session = Depends(get_db),  current_user: schemas.ShowAdmin = Security(
+        oauth2.get_current_active_user,
+
+)):
+    return events.get_event_url(event_name, db)
+
+# @router.get('/event_url/{event_name_id}',  response_model=schemas.CreateEventUrl, tags=['Admin'])
+# async def generate_url(event_name_id: str, db: Session = Depends(get_db)
+
+#                              ):
+#     return events.get_event_url(event_name_id, db)
 
 
 # route for user
@@ -91,7 +106,7 @@ async def search_participant(phone_number_email: str, db: Session = Depends(get_
     return participants.get_by_phone_number(phone_number_email, db)
 
 
-@router.get('/participant/', response_model=List[schemas.ParticipantWithAdmin], tags=['Admin'])
+@router.get('/participant/', response_model=List[schemas.ShowParticipant], tags=['Admin'])
 async def show_participant_all(db: Session = Depends(get_db),  current_user: schemas.ShowAdmin = Security(
         oauth2.get_current_active_user,
 

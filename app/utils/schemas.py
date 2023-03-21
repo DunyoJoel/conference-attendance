@@ -4,7 +4,7 @@ from datetime import datetime
 
 
 class CreateParticipant(BaseModel):
-    id: int
+    # id: int
     name: str
     gender: str
     phone_number: str
@@ -84,23 +84,32 @@ class CreateEvent(BaseModel):
         orm_mode = True
 
 
-# class CreateEventUrl(BaseModel):
-#     id: int
-#     event_name: str = None
-#     venue: str = None
-#     start_date: datetime = None
-#     end_date: datetime = None
-#     number_of_participants: int = None
-#     description: str = None
+class CreateEventUrl(BaseModel):
+    id: int
+    event_name: str
+    description: str
 
-#     class Config():
-#         orm_mode = True
+    class Config():
+        orm_mode = True
 
 
 class ShowEvent(BaseModel):
     id: int
     event_name: str
     admin_id: int
+    venue: str
+    start_date: datetime
+    end_date: datetime
+    number_of_participants: int
+    description: str
+
+    class Config():
+        orm_mode = True
+
+
+class ShowEventAll(BaseModel):
+    id: int
+    event_name: str
     venue: str
     start_date: datetime
     end_date: datetime

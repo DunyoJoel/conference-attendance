@@ -92,11 +92,31 @@ def showEvent(db: Session, event_name: str ):
                             detail=f"Role with the id {event_name} is not available")
     return event
 
+def get_all(db: Session):
+    event = db.query(model.Event).all()
+    print(event)
+
+    return event
+
 def get_by_name(event_name: str, db: Session):
     event = db.query(model.Event).filter(
         model.Event.event_name == event_name).first()
     return event
 
+
+def get_event_url(event_name: str, db: Session):
+    event = db.query(model.Event).filter(
+        model.Event.event_name == event_name).first()
+    return event
+
+# def get_event_url(event_name_id: str,  db: Session):
+#     if  event_name_id:
+#         event = db.query(model.Event).filter(
+#             model.Event.id == event_name_id).first()
+#     else:
+#          event = db.query(model.Event).filter(
+#             model.Event.event_name == event_name_id).first()
+#     return event
 
 
 #Event start and end date validation
