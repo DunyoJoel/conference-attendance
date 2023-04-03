@@ -10,6 +10,9 @@ class CreateParticipant(BaseModel):
     phone_number: str
     email: str
     organization: str
+    status: bool
+    attend_by: str
+    registration_time: str
     registry_from: str
 
     class Config():
@@ -23,6 +26,9 @@ class ShowParticipant(BaseModel):
     phone_number: str
     email: str
     organization: str
+    status: bool
+    registration_time: str
+    attend_by: str
     registry_from: str
 
     class Config():
@@ -36,6 +42,9 @@ class ShowParticipantPhone(BaseModel):
     phone_number: str
     email: str
     organization: str
+    registration_time: str
+    status: str
+    attend_by: str
     registry_from: str
 
     class Config():
@@ -49,6 +58,9 @@ class UpdateParticipant(BaseModel):
     phone_number: str
     email: str
     organization: str
+    status: str
+    registration_time: str
+    attend_by = str
     registry_from: str
 
     class Config():

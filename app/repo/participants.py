@@ -17,6 +17,9 @@ def create(request: schemas.CreateParticipant, db: Session):
                                             gender=request.gender,
                                             email=request.email,
                                             organization=request.organization,
+                                            status = request.status,
+                                            attend_by = request.attend_by,
+                                            registration_time = request.registration_time,
                                             registry_from=request.registry_from
                                             )
 
@@ -84,6 +87,9 @@ def update(id: int, request: schemas.ShowParticipant, db: Session):
     participant.gender = request.gender
     participant.email = request.email
     participant.organization = request.organization
+    participant.status = request.status
+    participant.attend_by = request.attend_by
+    participant.registration_time = request.registration_time
     participant.registry_from = request.registry_from
 
     db.commit()
@@ -113,4 +119,15 @@ def get_by_phone_number(phone_number_email: str,  db: Session):
     else:
          participant = db.query(model.Participant).filter(
             model.Participant.phone_number == phone_number_email).first()
+    return participant
+
+def attend_event_by(attend_by: str, db: Session) -> model.Participant:
+    if attend_by == "virtual":
+        participant = db.query(model.Participant).filter(
+            model.Participant.attend_by == "virtual").first()
+    else:
+        participants = db.query(model.Participant).filter(
+            model.Participant.attend_by == "onsite").order_by(
+            model.Participant.attend_by).all()
+        participant = participants[0] if participants else None
     return participant

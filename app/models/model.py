@@ -14,7 +14,11 @@ class Participant(Base):
     gender = Column(String)
     email = Column(String, unique=True, index=True)
     organization = Column(String)
+    status = Column(Boolean, default=False)
+    attend_by = Column(String)
+    registration_time = Column(String)
     registry_from = Column(String)
+
     #attendance_id = Column(Integer, ForeignKey('attendances.id'))
 
     event = relationship('Event', back_populates='participants')

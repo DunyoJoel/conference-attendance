@@ -105,6 +105,11 @@ async def search_participant(phone_number_email: str, db: Session = Depends(get_
                              ):
     return participants.get_by_phone_number(phone_number_email, db)
 
+@router.get('/attend_program_by/{attend_by}',  response_model=schemas.ShowParticipantPhone, tags=['Admin'])
+async def attend_program(attend_by: str, db: Session = Depends(get_db)
+                             ):
+    return participants.attend_event_by(attend_by, db)
+
 
 @router.get('/participant/', response_model=List[schemas.ShowParticipant], tags=['Admin'])
 async def show_participant_all(db: Session = Depends(get_db),  current_user: schemas.ShowAdmin = Security(

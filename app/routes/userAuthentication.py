@@ -22,4 +22,8 @@ def login(request: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(
             "token_type": "bearer",
             }
 
+# endpoint for logout
+# @router.post("/logout")
+# def logout(token: str = Depends(oauth2_scheme)):
+#     return {"message": "Logged out successfully"}
 
