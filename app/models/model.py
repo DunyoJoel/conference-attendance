@@ -21,7 +21,8 @@ class Participant(Base):
 
     #attendance_id = Column(Integer, ForeignKey('attendances.id'))
 
-    event = relationship('Event', back_populates='participants')
+    event_id = Column(Integer, ForeignKey('events.id'))
+    event = relationship("Event", back_populates="participants")
 
 
 class Event(Base):
@@ -34,7 +35,6 @@ class Event(Base):
     number_of_participants = Column(Integer)
     description = Column(String)
     admin_id = Column(Integer, ForeignKey("admins.id"))
-    participantId = Column(Integer, ForeignKey("participants.id"))
     participants = relationship("Participant", back_populates="event")
 
 

@@ -36,7 +36,7 @@ class ShowParticipant(BaseModel):
 
 
 class ShowParticipantPhone(BaseModel):
-    # id: int
+    id: int
     name: str
     gender: str
     phone_number: str
@@ -197,3 +197,11 @@ class EventWithAdmin(BaseModel):
 class ParticipantWithAdmin(BaseModel):
     User: ShowParticipant = None
     Admin: ShowAdmin = None
+
+
+class ParticipantWithEvent(BaseModel):
+    Participant: ShowParticipant
+    #Event: ShowEvent = None
+
+    class Config():
+        orm_mode = True

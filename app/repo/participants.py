@@ -17,9 +17,9 @@ def create(request: schemas.CreateParticipant, db: Session):
                                             gender=request.gender,
                                             email=request.email,
                                             organization=request.organization,
-                                            status = request.status,
-                                            attend_by = request.attend_by,
-                                            registration_time = request.registration_time,
+                                            status=request.status,
+                                            attend_by=request.attend_by,
+                                            registration_time=request.registration_time,
                                             registry_from=request.registry_from
                                             )
 
@@ -117,17 +117,44 @@ def get_by_phone_number(phone_number_email: str,  db: Session):
         participant = db.query(model.Participant).filter(
             model.Participant.email == phone_number_email).first()
     else:
-         participant = db.query(model.Participant).filter(
+        participant = db.query(model.Participant).filter(
             model.Participant.phone_number == phone_number_email).first()
     return participant
+
 
 def attend_event_by(attend_by: str, db: Session) -> model.Participant:
     if attend_by == "virtual":
         participant = db.query(model.Participant).filter(
-            model.Participant.attend_by == "virtual").first()
+            model.Participant.attend_by == "virtual").all()
+
     else:
-        participants = db.query(model.Participant).filter(
-            model.Participant.attend_by == "onsite").order_by(
-            model.Participant.attend_by).all()
-        participant = participants[0] if participants else None
+        participant = db.query(model.Participant).filter(
+            model.Participant.attend_by == "onsite").all()
+        # participants = db.query(model.Participant).filter(
+        #     model.Participant.attend_by == "onsite").order_by(
+        #     model.Participant.attend_by).all()
+        # participant = participants[0] if participants else None
     return participant
+
+
+# s
+# def get_all_by_event(id: int, db: Session):
+#     participants = db.query(model.Event).filter(
+#         model.Event.id == id).outerjoin(
+#         model.Participant).all()
+#     print(participants)
+
+#     return participants
+
+# def get_participants_by_event(db: Session, event_name: str):
+#     participants = db.query(model.Participant).filter(
+#         model.Participant.event_id == event_name).outerjoin(
+   #     model.Event).all()
+#     return participants
+
+def get_all_by_event(id: int, db: Session):
+    event = db.query(model.Event).filter(model.Event.id == id).first()
+    participants = event.participants
+    print(participants)
+
+    return participants
