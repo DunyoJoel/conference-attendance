@@ -14,6 +14,7 @@ class CreateParticipant(BaseModel):
     attend_by: str
     registration_time: str
     registry_from: str
+    event_id: int
 
     class Config():
         orm_mode = True
@@ -30,6 +31,7 @@ class ShowParticipant(BaseModel):
     registration_time: str
     attend_by: str
     registry_from: str
+    event_id: int
 
     class Config():
         orm_mode = True

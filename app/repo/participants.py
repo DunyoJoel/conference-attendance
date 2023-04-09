@@ -20,7 +20,8 @@ def create(request: schemas.CreateParticipant, db: Session):
                                             status=request.status,
                                             attend_by=request.attend_by,
                                             registration_time=request.registration_time,
-                                            registry_from=request.registry_from
+                                            registry_from=request.registry_from,
+                                            event_id = request.event_id
                                             )
 
         db.add(new_participant)
@@ -91,6 +92,7 @@ def update(id: int, request: schemas.ShowParticipant, db: Session):
     participant.attend_by = request.attend_by
     participant.registration_time = request.registration_time
     participant.registry_from = request.registry_from
+    participant.event_id = request.event_id
 
     db.commit()
     db.refresh(participant)
@@ -153,8 +155,8 @@ def attend_event_by(attend_by: str, db: Session) -> model.Participant:
 #     return participants
 
 def get_all_by_event(id: int, db: Session):
-    event = db.query(model.Event).filter(model.Event.id == id).first()
-    participants = event.participants
-    print(participants)
+    participant = db.query(model.Participant).filter(model.Participant.event_id==model.Event.id).filter(model.Event.id == id).all()
+   
+    print(participant)
 
-    return participants
+    return participant

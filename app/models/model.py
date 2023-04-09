@@ -18,7 +18,7 @@ class Participant(Base):
     attend_by = Column(String)
     registration_time = Column(String)
     registry_from = Column(String)
-
+    
     #attendance_id = Column(Integer, ForeignKey('attendances.id'))
 
     event_id = Column(Integer, ForeignKey('events.id'))
