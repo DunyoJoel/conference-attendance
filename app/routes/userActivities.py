@@ -143,6 +143,13 @@ async def show_participant_event_all(id: int, db: Session = Depends(get_db),  cu
 
 )):
     return participants.get_all_by_event(id, db)
+# participant event status 
+@router.get('/participant_event_status/{registration_time}',  tags=['Admin'])
+async def status_participant_event_(registration_time: str, db: Session = Depends(get_db),  current_user: schemas.ShowAdmin = Security(
+        oauth2.get_current_active_user,
+
+)):
+    return participants.participant_event_status(registration_time, db)
 
 
 # route for admin

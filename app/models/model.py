@@ -14,11 +14,11 @@ class Participant(Base):
     gender = Column(String)
     email = Column(String, unique=True, index=True)
     organization = Column(String)
-    status = Column(Boolean, default=False)
+    status = Column(Boolean, default=False, index=False)
     attend_by = Column(String)
-    registration_time = Column(String)
-    registry_from = Column(String)
-    
+    registration_time = Column(DateTime)
+    location = Column(String)
+
     #attendance_id = Column(Integer, ForeignKey('attendances.id'))
 
     event_id = Column(Integer, ForeignKey('events.id'))

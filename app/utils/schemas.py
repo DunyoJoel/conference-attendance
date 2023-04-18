@@ -12,8 +12,8 @@ class CreateParticipant(BaseModel):
     organization: str
     status: bool
     attend_by: str
-    registration_time: str
-    registry_from: str
+    registration_time: datetime
+    location: str
     event_id: int
 
     class Config():
@@ -28,9 +28,9 @@ class ShowParticipant(BaseModel):
     email: str
     organization: str
     status: bool
-    registration_time: str
+    registration_time: datetime
     attend_by: str
-    registry_from: str
+    location: str
     event_id: int
 
     class Config():
@@ -44,10 +44,10 @@ class ShowParticipantPhone(BaseModel):
     phone_number: str
     email: str
     organization: str
-    registration_time: str
+    registration_time: datetime
     status: str
     attend_by: str
-    registry_from: str
+    location: str
 
     class Config():
         orm_mode = True
@@ -61,9 +61,10 @@ class UpdateParticipant(BaseModel):
     email: str
     organization: str
     status: str
-    registration_time: str
+    registration_time: datetime
+    
     attend_by = str
-    registry_from: str
+    location: str
 
     class Config():
         orm_mode = True

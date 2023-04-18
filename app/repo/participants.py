@@ -20,8 +20,8 @@ def create(request: schemas.CreateParticipant, db: Session):
                                             status=request.status,
                                             attend_by=request.attend_by,
                                             registration_time=request.registration_time,
-                                            registry_from=request.registry_from,
-                                            event_id = request.event_id
+                                            location=request.location,
+                                            event_id=request.event_id
                                             )
 
         db.add(new_participant)
@@ -91,7 +91,7 @@ def update(id: int, request: schemas.ShowParticipant, db: Session):
     participant.status = request.status
     participant.attend_by = request.attend_by
     participant.registration_time = request.registration_time
-    participant.registry_from = request.registry_from
+    participant.location = request.location
     participant.event_id = request.event_id
 
     db.commit()
@@ -132,31 +132,48 @@ def attend_event_by(attend_by: str, db: Session) -> model.Participant:
     else:
         participant = db.query(model.Participant).filter(
             model.Participant.attend_by == "onsite").all()
-        # participants = db.query(model.Participant).filter(
-        #     model.Participant.attend_by == "onsite").order_by(
-        #     model.Participant.attend_by).all()
-        # participant = participants[0] if participants else None
+
+    return participant
+# status of registrations
+def participant_event_status(registration_time: str, db: Session) -> model.Participant:
+    if registration_time >=model.Event.start_date :
+        participant = db.query(model.Participant).filter(
+            model.Participant.status == True)
+
+    else:
+        participant = db.query(model.Participant).filter(
+            model.Participant.status == False)
+
     return participant
 
 
-# s
-# def get_all_by_event(id: int, db: Session):
-#     participants = db.query(model.Event).filter(
-#         model.Event.id == id).outerjoin(
-#         model.Participant).all()
-#     print(participants)
+# def participant_event_status(participant_id: int, status: int, db: Session):
+#     participant = db.query(model.Participant).filter(
+#         model.Participant.id == participant_id).first()
+#     if not participant:
+#         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+#                             detail=f"participant with id {participant_id} not found")
 
-#     return participants
+#     event = db.query(model.Event).filter(
+#         model.Event.id == participant.event_id).first()
+#     if not event:
+#         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+#                             detail=f"event with id {participant.event_id} not found")
 
-# def get_participants_by_event(db: Session, event_name: str):
-#     participants = db.query(model.Participant).filter(
-#         model.Participant.event_id == event_name).outerjoin(
-   #     model.Event).all()
-#     return participants
+#     participant.status = status
+#     event.start_date = datetime.now()
+
+#     db.commit()
+#     db.refresh(participant)
+#     db.refresh(event)
+
+#     return participant
+
 
 def get_all_by_event(id: int, db: Session):
-    participant = db.query(model.Participant).filter(model.Participant.event_id==model.Event.id).filter(model.Event.id == id).all()
-   
+    participant = db.query(model.Participant).filter(
+        model.Participant.event_id == model.Event.id).filter(model.Event.id == id).all()
+
     print(participant)
 
     return participant
