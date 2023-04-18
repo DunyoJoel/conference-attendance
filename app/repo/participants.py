@@ -3,6 +3,7 @@ from fastapi import HTTPException, status
 from app.security.hashing import Hash
 from app.models import model
 from app.utils import schemas
+from datetime import datetime
 
 
 def create(request: schemas.CreateParticipant, db: Session):
@@ -135,17 +136,19 @@ def attend_event_by(attend_by: str, db: Session) -> model.Participant:
 
     return participant
 # status of registrations
-def participant_event_status(registration_time: str, db: Session) -> model.Participant:
-    if registration_time >=model.Event.start_date :
-        participant = db.query(model.Participant).filter(
-            model.Participant.status == True)
-
+def participant_event_status(participant_id: int, registration_time: str, db: Session) -> model.Participant:
+    event_start_date = db.query(model.Event).first().start_date
+    existing_participant = db.query(model.Participant).filter(model.Participant.id == participant_id).first()
+    if existing_participant:
+        if registration_time >= event_start_date and not existing_participant.status:
+            existing_participant.status = True
     else:
-        participant = db.query(model.Participant).filter(
-            model.Participant.status == False)
+        new_participant = model.Participant(id=participant_id, registration_time=registration_time, status=True)
+        db.add(new_participant)
+        db.flush()
+        existing_participant = new_participant
 
-    return participant
-
+    return existing_participant
 
 # def participant_event_status(participant_id: int, status: int, db: Session):
 #     participant = db.query(model.Participant).filter(

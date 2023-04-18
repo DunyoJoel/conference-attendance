@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from app.utils import schemas, dbConn
 from app.security import token
 from app.repo import participants, events, attendances, admins
-
+from datetime import datetime
 from app.utils.initialUser import User
 from app.security import oauth2
 from typing import List
@@ -143,13 +143,25 @@ async def show_participant_event_all(id: int, db: Session = Depends(get_db),  cu
 
 )):
     return participants.get_all_by_event(id, db)
-# participant event status 
-@router.get('/participant_event_status/{registration_time}',  tags=['Admin'])
-async def status_participant_event_(registration_time: str, db: Session = Depends(get_db),  current_user: schemas.ShowAdmin = Security(
-        oauth2.get_current_active_user,
+# participant event status
 
-)):
-    return participants.participant_event_status(registration_time, db)
+
+@router.put('/participant_event_status/{participant_id}/{registration_time}', tags=['Admin'])
+async def update_participant_status(participant_id: int, registration_time: str,
+                                    db: Session = Depends(get_db),
+                                    current_user: schemas.ShowAdmin = Security(oauth2.get_current_active_user)):
+    # Parse the registration_time parameter as a datetime object
+    #reg_time = datetime.strptime(registration_time, '%Y-%m-%d %H:%M:%S')
+
+    # Call the participant_event_status function to update/create the participant and get the updated participant object
+    participant = participants.participant_event_status(
+        participant_id, registration_time, db)
+
+    # Commit the changes to the database
+    db.commit()
+
+    # Return the updated participant object as a JSON response
+    return participant.__dict__
 
 
 # route for admin

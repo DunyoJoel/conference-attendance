@@ -10,9 +10,9 @@ class CreateParticipant(BaseModel):
     phone_number: str
     email: str
     organization: str
-    status: bool
+    status: bool = False
     attend_by: str
-    registration_time: datetime
+    registration_time: str
     location: str
     event_id: int
 
@@ -27,8 +27,8 @@ class ShowParticipant(BaseModel):
     phone_number: str
     email: str
     organization: str
-    status: bool
-    registration_time: datetime
+    status: bool = False
+    registration_time: str
     attend_by: str
     location: str
     event_id: int
@@ -44,8 +44,8 @@ class ShowParticipantPhone(BaseModel):
     phone_number: str
     email: str
     organization: str
-    registration_time: datetime
-    status: str
+    registration_time: str
+    status: bool = False
     attend_by: str
     location: str
 
@@ -60,9 +60,9 @@ class UpdateParticipant(BaseModel):
     phone_number: str
     email: str
     organization: str
-    status: str
-    registration_time: datetime
-    
+    status: bool = False
+    registration_time: str
+
     attend_by = str
     location: str
 
@@ -90,8 +90,8 @@ class ShowAttendance(BaseModel):
 class CreateEvent(BaseModel):
     event_name: str
     venue: str
-    start_date: datetime
-    end_date: datetime
+    start_date: str
+    end_date: str
     number_of_participants: int
     description: str
 
@@ -113,8 +113,8 @@ class ShowEvent(BaseModel):
     event_name: str
     admin_id: int
     venue: str
-    start_date: datetime
-    end_date: datetime
+    start_date: str
+    end_date: str
     number_of_participants: int
     description: str
 
@@ -126,8 +126,8 @@ class ShowEventAll(BaseModel):
     id: int
     event_name: str
     venue: str
-    start_date: datetime
-    end_date: datetime
+    start_date: str
+    end_date: str
     number_of_participants: int
     description: str
 
@@ -139,8 +139,8 @@ class UpdateEvent(BaseModel):
     id: int
     event_name: str
     venue: str
-    start_date: datetime
-    end_date: datetime
+    start_date: str
+    end_date: str
     number_of_participants: int
     description: str
 

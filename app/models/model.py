@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Boolean, T
 from app.utils.dbConn import Base
 
 from sqlalchemy.orm import relationship
-
+import datetime
 from datetime import datetime
 
 
@@ -16,7 +16,7 @@ class Participant(Base):
     organization = Column(String)
     status = Column(Boolean, default=False, index=False)
     attend_by = Column(String)
-    registration_time = Column(DateTime)
+    registration_time = Column(String)
     location = Column(String)
 
     #attendance_id = Column(Integer, ForeignKey('attendances.id'))
@@ -30,8 +30,8 @@ class Event(Base):
     id = Column(Integer, primary_key=True, index=True)
     event_name = Column(String, unique=True)
     venue = Column(String)
-    start_date = Column(DateTime)
-    end_date = Column(DateTime)
+    start_date = Column(String)
+    end_date = Column(String)
     number_of_participants = Column(Integer)
     description = Column(String)
     admin_id = Column(Integer, ForeignKey("admins.id"))
